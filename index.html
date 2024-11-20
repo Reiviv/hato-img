@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Let Hato bless you!</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <img src="Logobundle.png" alt="Logo" class="logo" />
+      <h2>Choose your target and watch me get the job done.</h2>
+      <p>1. upload your foto</p>
+      <p><span style="color: yellow">2. get shitted</span></p>
+      <div class="upload-box">
+        <input type="file" id="upload" accept="image/*" />
+        <span class="upload-label">Upload Your Image Here</span>
+        <canvas id="canvas"></canvas>
+      </div>
+      <button id="startAnimation" class="action-btn">Get Shitted</button>
+      <video id="pigeonVideo" src="HatoAnimation.webm"></video>
+    </div>
+
+    <script>
+      const upload = document.getElementById("upload");
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const pigeonVideo = document.getElementById("pigeonVideo");
+      const startAnimation = document.getElementById("startAnimation");
+      const uploadLabel = document.querySelector(".upload-label");
+
+      const dripDirectory = "drip";
+      const dripImages = [];
+
+      let originalWidth, originalHeight; // Per mantenere le dimensioni
+      let baseImage;
+
+      // Carica immagini della "cacca"
+      for (let i = 1; i <= 30; i++) {
+        const img = new Image();
+        img.src = `${dripDirectory}/Drip_${i.toString().padStart(2, "0")}.png`;
+        dripImages.push(img);
+      }
+
+      // Gestione caricamento immagine
+      upload.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            baseImage = new Image();
+            baseImage.src = e.target.result;
+            baseImage.onload = () => {
+              // Calcolo proporzioni per il ridimensionamento
+              const maxWidth = 800;
+              const maxHeight = 400;
+              originalWidth = baseImage.width;
+              originalHeight = baseImage.height;
+
+              if (originalWidth > maxWidth || originalHeight > maxHeight) {
+                const widthRatio = maxWidth / originalWidth;
+                const heightRatio = maxHeight / originalHeight;
+                const ratio = Math.min(widthRatio, heightRatio);
+                originalWidth = Math.floor(originalWidth * ratio);
+                originalHeight = Math.floor(originalHeight * ratio);
+              }
+
+              // Disegna l'immagine sul canvas
+              canvas.width = originalWidth;
+              canvas.height = originalHeight;
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(baseImage, 0, 0, originalWidth, originalHeight);
+              canvas.style.display = "block";
+              uploadLabel.classList.add("hidden");
+
+              // Ripristina il pulsante "Get Shitted"
+              startAnimation.textContent = "Get Shitted";
+              startAnimation.removeEventListener("click", downloadPhoto);
+              startAnimation.addEventListener("click", handleAnimationClick);
+            };
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Gestione animazione e overlay
+      startAnimation.addEventListener("click", handleAnimationClick);
+
+      function handleAnimationClick() {
+        if (baseImage) {
+          pigeonVideo.style.display = "block";
+          pigeonVideo.play();
+          pigeonVideo.style.opacity = 1;
+
+          // Applica l'overlay prima che termini il video (80% della durata)
+          const overlayTime = pigeonVideo.duration * 0.8;
+          setTimeout(() => {
+            applyDripOverlay();
+          }, overlayTime * 1000);
+
+          // Quando il video termina, aggiorna il pulsante
+          pigeonVideo.onended = () => {
+            pigeonVideo.style.display = "none";
+            startAnimation.textContent = "Download Photo";
+            startAnimation.removeEventListener("click", handleAnimationClick);
+            startAnimation.addEventListener("click", downloadPhoto);
+          };
+        } else {
+          alert("Please upload an image first!");
+        }
+      }
+
+      // Funzione per applicare l'overlay
+      function applyDripOverlay() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Pulisce il canvas
+        ctx.drawImage(baseImage, 0, 0, originalWidth, originalHeight);
+
+        // Disegna 2-4 "cacca" casuali
+        const dripCount = Math.floor(Math.random() * 3) + 2;
+        for (let i = 0; i < dripCount; i++) {
+          const drip =
+            dripImages[Math.floor(Math.random() * dripImages.length)];
+          const size = Math.random() * 350 + 150;
+          const x = Math.random() * (canvas.width - size);
+          const y = Math.random() * (canvas.height - size);
+
+          ctx.save();
+          ctx.translate(x + size / 2, y + size / 2);
+          ctx.rotate(Math.random() * 2 * Math.PI);
+          ctx.drawImage(drip, -size / 2, -size / 2, size, size);
+          ctx.restore();
+        }
+      }
+
+      // Funzione per scaricare la foto
+      function downloadPhoto() {
+        const link = document.createElement("a");
+        link.download = "shitted_photo.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      }
+    </script>
+  </body>
+</html>
