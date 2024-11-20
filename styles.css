@@ -1,0 +1,154 @@
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+  background: url("Webpage.png") center center fixed;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+}
+
+h2 {
+  font-family: "Gochi Hand", sans-serif;
+  font-size: 40px; /* Impostato a una dimensione fissa */
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+p {
+  font-family: "Gochi Hand", sans-serif;
+  font-size: 25px; /* Impostato a una dimensione fissa */
+  margin-bottom: 20px;
+}
+
+.upload-box {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  margin: 20px auto;
+  max-width: 90%;
+  max-height: 70%
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  flex-direction: column;
+  text-align: center;
+}
+
+#canvas {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+#upload {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.upload-label {
+  font-size: 20px; /* Impostato a una dimensione fissa */
+  font-weight: bold;
+  color: #000;
+  pointer-events: none;
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.upload-label.hidden {
+  display: none; /* Nasconde la scritta quando l'immagine è caricata */
+}
+
+.action-btn {
+  margin-top: 20px;
+  padding: 15px 30px;
+  font-size: 18px; /* Impostato a una dimensione fissa */
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffcc00;
+  color: #000;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: auto;
+  max-width: 250px; /* Limita la larghezza massima */
+}
+
+.action-btn:hover {
+  background-color: #e6b800;
+}
+
+video#pigeonVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 9999;
+  display: none;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+/* Media Queries per schermi molto piccoli */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 35px; /* Ridotto per dispositivi più piccoli */
+  }
+
+  p {
+    font-size: 22px; /* Ridotto per dispositivi più piccoli */
+  }
+
+  .action-btn {
+    font-size: 16px; /* Ridotto per dispositivi più piccoli */
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 30px; /* Ancora più piccolo per schermi molto piccoli */
+  }
+
+  p {
+    font-size: 18px; /* Ancora più piccolo per schermi molto piccoli */
+  }
+
+  .upload-box {
+    padding: 10px;
+    max-width: 90%;
+  }
+
+  .action-btn {
+    font-size: 14px; /* Ancora più piccolo per schermi molto piccoli */
+    max-width: 180px;
+  }
+
+  #canvas {
+    max-height: 50vh; /* Rende il canvas più piccolo sui dispositivi più piccoli */
+  }
+}
+.logo {
+  max-width: 350px; /* Regola la dimensione del logo */
+}
